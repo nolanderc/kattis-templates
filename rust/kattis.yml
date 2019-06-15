@@ -1,0 +1,11 @@
+---
+samples: "./samples"
+language: Rust
+files:
+    - main.rs
+    - scanner.rs
+mainclass: main.rs
+build: 
+    - rustc -g --crate-type bin main.rs -o a.out
+run:
+    - ./a.out
