@@ -11,8 +11,7 @@ mod scanner;
 use self::scanner::*;
 
 fn main() {
-    let mut scanner = Scanner::new();
-
-    let (a, b, c) = scan!(scanner, usize, u32, u32);
+    let n = scan!(usize);
+    let xs = scan!(usize; n);
 }
 
