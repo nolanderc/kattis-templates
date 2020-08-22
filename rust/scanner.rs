@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use std::{
     cell::RefCell,
     io::{stdin, Read},
@@ -10,7 +12,6 @@ use std::{
 static mut SCANNER: *mut Scanner = ptr::null_mut();
 
 #[macro_export]
-#[allow(unused_parens)]
 macro_rules! scan {
     // repeat scan multiple times
     [$type:tt; $n:expr] => {{
@@ -59,7 +60,6 @@ pub fn scanner() -> &'static mut Scanner {
     }
 }
 
-#[allow(dead_code)]
 impl Scanner {
     pub fn new() -> Scanner {
         let mut buffer = Vec::new();
@@ -123,7 +123,7 @@ impl Scanner {
             data.push(w.parse().unwrap());
         }
 
-        if data.len() == 0 {
+        if data.is_empty() {
             self.consume_line();
             while let Some(w) = self.words.next() {
                 data.push(w.parse().unwrap());
@@ -133,6 +133,3 @@ impl Scanner {
         data
     }
 }
-
-
-
