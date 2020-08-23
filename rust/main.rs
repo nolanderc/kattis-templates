@@ -11,7 +11,12 @@ mod scanner;
 use self::scanner::*;
 
 fn main() {
-    let n = scan!(usize);
-    let xs = scan!(usize; n);
+    scan_block! {
+        // get the number of values
+        count: usize,
+        values: [f32; count],
+    }
+
+    println!("I have {} values: {:?}", count, values);
 }
 

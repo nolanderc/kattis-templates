@@ -1,14 +1,48 @@
 use std::{
-    cell::RefCell,
     io::{stdin, Read},
-    ops::{Deref, DerefMut},
     ptr,
     str::{FromStr, Lines, SplitWhitespace},
-    vec::IntoIter,
 };
 
 static mut SCANNER: *mut Scanner = ptr::null_mut();
 
+/// Scan multiple expressions.
+///
+/// # Example
+///
+/// ```
+/// scan_block! {
+///     count: usize,
+///     values: [f32; count],
+/// }
+/// println!("I have {} values: {:?}", count, values);
+/// ```
+#[macro_export]
+#[allow(unused_parens)]
+macro_rules! scan_block {
+    (
+        $(
+            $ident:ident: $ty:tt
+        ),+ $(,)?
+    ) => {
+        $(
+            let $ident = scan_block!(@scan $ty);
+        )+
+    };
+
+    (@scan [$type:tt; $n:expr]) => { scan!($type; $n) };
+    (@scan $ty:tt) => { scan!($ty) };
+}
+
+/// Scan a single expression.
+///
+/// # Example
+///
+/// ```
+/// let count = scan!(usize);
+/// let values = scan![f32; count];
+/// println!("I have {} values: {:?}", count, values);
+/// ```
 #[macro_export]
 #[allow(unused_parens)]
 macro_rules! scan {
@@ -19,7 +53,7 @@ macro_rules! scan {
         for _ in 0..n { results.push(scan!($type)); }
         results
     }};
-    // repeat scan for every type on line
+    // repeat scan for every word on line
     [$type:ty; _] => {{
         $crate::scanner::scanner().scan_line::<$type>()
     }};
@@ -39,6 +73,20 @@ macro_rules! scan {
     ($($type:tt),+) => {
         ( $( scan!($type) ),+ )
     };
+}
+
+/// Get the next line in the input
+///
+/// # Example
+///
+/// ```
+/// let line = next_line!();
+/// println!("I spy with my little eye: {:?}", line);
+/// ```
+macro_rules! next_line {
+    () => {
+        $crate::scanner::scanner().next_line()
+    }
 }
 
 pub struct Scanner {
@@ -85,6 +133,11 @@ impl Scanner {
             .split_whitespace()
     }
 
+    /// Get the next (complete) line in the input.
+    pub fn next_line(&mut self) -> &'static str {
+        self.lines.next().unwrap()
+    }
+
     /// Get next word
     pub fn next_word(&mut self) -> &'static str {
         loop {
@@ -119,20 +172,11 @@ impl Scanner {
     {
         let mut data = Vec::new();
 
-        while let Some(w) = self.words.next() {
-            data.push(w.parse().unwrap());
-        }
-
-        if data.len() == 0 {
+        while data.is_empty() {
             self.consume_line();
-            while let Some(w) = self.words.next() {
-                data.push(w.parse().unwrap());
-            }
+            data = self.words.by_ref().map(|w| w.parse().unwrap()).collect()
         }
 
         data
     }
 }
-
-
-
