@@ -1,3 +1,5 @@
+#![allow(dead_code)]
+
 use std::{
     io::{stdin, Read},
     ptr,
@@ -44,7 +46,6 @@ macro_rules! scan_block {
 /// println!("I have {} values: {:?}", count, values);
 /// ```
 #[macro_export]
-#[allow(unused_parens)]
 macro_rules! scan {
     // repeat scan multiple times
     [$type:tt; $n:expr] => {{
@@ -107,7 +108,6 @@ pub fn scanner() -> &'static mut Scanner {
     }
 }
 
-#[allow(dead_code)]
 impl Scanner {
     pub fn new() -> Scanner {
         let mut buffer = Vec::new();

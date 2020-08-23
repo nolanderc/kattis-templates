@@ -1,14 +1,14 @@
 #![allow(unused_imports)]
 #![allow(unused_macros)]
-use std::{
-    cmp::{max, min},
-    collections::{BTreeMap, BTreeSet, HashMap, HashSet, VecDeque},
-    io::{self, stdin, BufRead, Read, Write},
-};
 
 #[macro_use]
 mod scanner;
-use self::scanner::*;
+
+use std::{
+    cmp::{max, min},
+    collections::{BTreeMap, BTreeSet, HashMap, HashSet, VecDeque},
+    io::{stdout, BufWriter, Write},
+};
 
 fn main() {
     scan_block! {
@@ -17,6 +17,8 @@ fn main() {
         values: [f32; count],
     }
 
-    println!("I have {} values: {:?}", count, values);
-}
+    let line = next_line!();
 
+    println!("I have {} values: {:?}", count, values);
+    println!("I spy with my little eye: {:?}", line);
+}
