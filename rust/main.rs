@@ -11,14 +11,5 @@ use std::{
 };
 
 fn main() {
-    scan_block! {
-        // get the number of values
-        count: usize,
-        values: [f32; count],
-    }
-
-    let line = next_line!();
-
-    println!("I have {} values: {:?}", count, values);
-    println!("I spy with my little eye: {:?}", line);
+    // see scanner.rs for examples of macro usage
 }
