@@ -87,7 +87,7 @@ macro_rules! scan {
 macro_rules! next_line {
     () => {
         $crate::scanner::scanner().next_line()
-    }
+    };
 }
 
 pub struct Scanner {
