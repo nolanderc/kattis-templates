@@ -6,6 +6,6 @@ files:
     - scanner.rs
 mainclass: main.rs
 build: 
-    - rustup run 1.36.0 rustc -g --crate-type bin main.rs -o a.out
+    - rustup run 1.41.1 rustc -g --crate-type bin -o a.out --edition=2018 main.rs
 run:
     - ./a.out
